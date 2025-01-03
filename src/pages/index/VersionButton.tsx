@@ -1,23 +1,21 @@
 import { createResource, Show } from 'solid-js'
 import { getVersion } from './fetcher'
+import LoadingButton from './LoadingButton'
 
 export default function VersionButton() {
   const [version] = createResource(getVersion)
   return (
-    <label class="btn btn-primary">
-      <Show when={version.loading}>
-        <span class="loading loading-spinner" />
-      </Show>
-      <Show
-        when={version.state === 'ready'}
-        fallback={<span>Loading...</span>}
-      >
+    <Show
+      when={version.state === 'ready'}
+      fallback={<LoadingButton />}
+    >
+      <label class="btn btn-primary">
         <span>
           Version:
           {' '}
           {version()?.version}
         </span>
-      </Show>
-    </label>
+      </label>
+    </Show>
   )
 }
