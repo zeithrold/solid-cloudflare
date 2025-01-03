@@ -49,10 +49,11 @@ export default defineConfig({
         jsxLocation: true,
       },
     }),
-    banner('2024 Zeithrold https://github.com/zeithrold/blog | Licensed under MIT'),
+    banner('2025 Zeithrold https://github.com/zeithrold/solid-cloudflare | Licensed under MIT'),
   ],
   build: {
     target: 'es2022',
+    // minify: false,
     rollupOptions: {
       treeshake: 'recommended',
       output: {
