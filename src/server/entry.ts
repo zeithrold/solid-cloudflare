@@ -12,7 +12,7 @@ app.use(async (c, next) => {
   await next()
 })
 
-app.use('/api/rpc/*', trpcServer({
+app.use('/rpc/*', trpcServer({
   router: appRouter,
 }))
 
