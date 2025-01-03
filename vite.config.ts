@@ -43,6 +43,11 @@ export default defineConfig({
     paths(),
     devtools({
       autoname: true,
+      locator: {
+        targetIDE: 'vscode',
+        componentLocation: true,
+        jsxLocation: true,
+      },
     }),
     banner('2024 Zeithrold https://github.com/zeithrold/blog | Licensed under MIT'),
   ],

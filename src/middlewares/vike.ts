@@ -1,5 +1,5 @@
 import type { Context } from 'hono'
-import { minify } from 'html-minifier-terser'
+import { stream } from 'hono/streaming'
 import { renderPage } from 'vike/server'
 
 export default async function vike(c: Context) {
@@ -9,22 +9,14 @@ export default async function vike(c: Context) {
     headersOriginal: c.req.header(),
     method,
   })
+  const { writable, readable } = new TransformStream()
   const response = pageContext.httpResponse
-  let htmlBody: string
-  try {
-    htmlBody = await minify(response.body, {
-      collapseWhitespace: true,
-      minifyJS: true,
-      removeComments: true,
-    })
-  }
-  catch (error) {
-    console.error('Error during HTML minification:', error)
-    htmlBody = response.body
-  }
+  response.pipe(writable)
   c.status(response.statusCode)
   response.headers.forEach(([key, value]) => {
     c.header(key, value)
   })
-  return c.body(htmlBody)
+  return stream(c, async (stream) => {
+    return stream.pipe(readable)
+  })
 }
